@@ -15,6 +15,34 @@ module.exports = {
                 loader: "babel-loader",
                 options: { presets: ["@babel/preset-env", "@babel/preset-react"]}
             },
+            {
+                test: /\.s[ac]ss$/,
+                use: [
+                    {loader: "style-loader",},
+                    {loader: "css-loader",},
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            postcssOptions: {
+                                plugins: function () {
+                                    return [
+                                        require('precss'),
+                                        require('autoprefixer')
+                                    ];
+                                }
+                            }
+                        }
+                    },
+                    {loader: "sass-loader",}
+                ],
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    {loader: 'style-loader',},
+                    {loader: 'css-loader',}
+                ]
+            }
         ]
     }
 };
