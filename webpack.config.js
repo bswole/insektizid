@@ -44,5 +44,12 @@ module.exports = {
                 ]
             }
         ]
+    },
+
+    resolve: {
+        alias: {
+            'comp': path.resolve(__dirname, 'front-end/components/'),
+            'img': path.resolve(__dirname, 'front-end/images/')
+        }
     }
 };
