@@ -2,15 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.utils.translation import gettext_lazy as _
 
-from .managers import SubmitterManager, DeveloperManager, ManagerManager, AdminManager
-
-class CustomUserManager(BaseUserManager):
-    def save(self, *args, **kwargs):
-        # If a new user, set the user's type base off base_type
-        if not self.pk:
-            self.type = self.base_type
-        return super().save(*args,**kwargs)
-
+from .managers import CustomUserManager, SubmitterManager, DeveloperManager, ManagerManager, AdminManager
 
 class CustomUser(AbstractUser):
     class Types(models.TextChoices):
