@@ -1,11 +1,18 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.utils.translation import gettext_lazy as _
 
-from . import managers
+from .managers import SubmitterManager, DeveloperManager, ManagerManager, AdminManager
+
+class CustomUserManager(BaseUserManager):
+    def save(self, *args, **kwargs):
+        # If a new user, set the user's type base off base_type
+        if not self.pk:
+            self.type = self.base_type
+        return super().save(*args,**kwargs)
 
 
-class User(AbstractUser):
+class CustomUser(AbstractUser):
     class Types(models.TextChoices):
         ADMIN = "ADMIN", "Admin"
         MANAGER = "MANAGER", "Manager"
@@ -13,7 +20,7 @@ class User(AbstractUser):
         SUBMITTER = "SUBMITTER", "Submitter"
 
     # model specific methods
-    objects = managers.UserManager()
+    objects = CustomUserManager()
 
     # default user role
     base_type = Types.SUBMITTER
@@ -29,42 +36,42 @@ class User(AbstractUser):
 #############################################################################
 # PROXY MODELS 
 #############################################################################
-class Submitter(User):
+class Submitter(CustomUser):
     # User base_type is Submitter, but repeated here in case of change
-    base_type = User.Types.SUBMITTER
+    base_type = CustomUser.Types.SUBMITTER
 
     # model specific methods
-    objects = managers.SubmitterManager()
+    objects = SubmitterManager()
 
     class Meta:
         # prevents a table from being created for this model
         proxy = True
 
-class Developer(User):
-    base_type = User.Types.DEVELOPER
+class Developer(CustomUser):
+    base_type = CustomUser.Types.DEVELOPER
 
     # model specific methods
-    objects = managers.DeveloperManager()
+    objects = DeveloperManager()
 
     class Meta:
         # prevents a table from being created for this model
         proxy = True
 
-class Manager(User):
-    base_type = User.Types.MANAGER
+class Manager(CustomUser):
+    base_type = CustomUser.Types.MANAGER
 
     # model specific methods
-    objects = managers.ManagerManager()
+    objects = ManagerManager()
 
     class Meta:
         # prevents a table from being created for this model
         proxy = True
 
-class Admin(User):
-    base_type = User.Types.ADMIN
+class Admin(CustomUser):
+    base_type = CustomUser.Types.ADMIN
 
     # model specific methods
-    objects = managers.AdminManager()
+    objects = AdminManager()
 
     class Meta:
         # prevents a table from being created for this model
