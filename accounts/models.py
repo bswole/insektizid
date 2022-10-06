@@ -1,38 +1,71 @@
-from django.contrib.auth.models import User
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 
-from .managers import CustomUserManager
+from . import managers
 
-class CustomUser(User):
-    ROLES = ( 
-        ('admin', 'Administrator'), # CRUD ALL
-        ('manager', 'Manager'), # CRUD projects, (C)R(UD) users(developers, submitters), CRUD tickets(approval=>Done), CRUD comments
-        ('lead', 'Team Lead'), # Developer with permission to review and approve tickets
-        ('developer', 'Software Developer'), # (C)R(UD) tickets(authored_by, CR if project team member), comments(authored_by, CR if project team member)
-        ('submitter', 'Ticket Submitter'), # (C)R(UD) tickets(authored_by, CR if project team member), (C)R(UD) comments(authored_by, CR if project team member)
+
+class User(AbstractUser):
+    class Types(models.TextChoices):
+        ADMIN = "ADMIN", "Admin"
+        MANAGER = "MANAGER", "Manager"
+        DEVELOPER = "DEVELOPER", "Developer"
+        SUBMITTER = "SUBMITTER", "Submitter"
+
+    # model specific methods
+    objects = managers.UserManager()
+
+    # default user role
+    base_type = Types.SUBMITTER
+
+    # user role
+    type = models.CharField(
+        _("Type"), 
+        max_length=50, 
+        choices=Types.choices,
+        default=Types.SUBMITTER
     )
 
-    username = None
-    first_name = models.CharField(_("first name"), max_length=150, null=False)
-    last_name = models.CharField(_("last name"), max_length=150, null=False)
-    email = models.EmailField(_('email address'), unique=True)
-    password = models.CharField(_("password"), max_length=150, null=False)
-    supervisor = ''
+#############################################################################
+# PROXY MODELS 
+#############################################################################
+class Submitter(User):
+    # User base_type is Submitter, but repeated here in case of change
+    base_type = User.Types.SUBMITTER
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
-
-    objects = CustomUserManager()
+    # model specific methods
+    objects = managers.SubmitterManager()
 
     class Meta:
-        permissions = [
-            # Users, CRUD: admin / CRUD: manager (dev, sub... if supervisor)
-            # Projects, CRUD: admin, manager / R: dev, sub (if team member) 
-            # Tickets, CRUD: admin / manager (if project team member) / dev (CR: if project team member, UD: if author) / 
-        ]
-        ordering = ["last_name", "first_name"]
+        # prevents a table from being created for this model
+        proxy = True
 
-    
-    def __str__(self):
-        return self.email
+class Developer(User):
+    base_type = User.Types.DEVELOPER
+
+    # model specific methods
+    objects = managers.DeveloperManager()
+
+    class Meta:
+        # prevents a table from being created for this model
+        proxy = True
+
+class Manager(User):
+    base_type = User.Types.MANAGER
+
+    # model specific methods
+    objects = managers.ManagerManager()
+
+    class Meta:
+        # prevents a table from being created for this model
+        proxy = True
+
+class Admin(User):
+    base_type = User.Types.ADMIN
+
+    # model specific methods
+    objects = managers.AdminManager()
+
+    class Meta:
+        # prevents a table from being created for this model
+        proxy = True
