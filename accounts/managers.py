@@ -1,7 +1,7 @@
 from django.contrib.auth.models import BaseUserManager
 from django.contrib.auth import get_user_model
 
-USER_MODEL = get_user_model()
+User = get_user_model()
 
 class UserManager(BaseUserManager):
     def save(self, *args, **kwargs):
@@ -13,20 +13,20 @@ class UserManager(BaseUserManager):
 class SubmitterManager(BaseUserManager):
     def get_queryset(self, *args, **kwargs):
         results = super().get_queryset(*args, **kwargs)
-        return results.filter(type=USER_MODEL.Types.SUBMITTER)
+        return results.filter(type=User.Types.SUBMITTER)
         
 class DeveloperManager(BaseUserManager):
     def get_queryset(self, *args, **kwargs):
         results = super().get_queryset(*args, **kwargs)
-        return results.filter(type=USER_MODEL.Types.DEVELOPER)
+        return results.filter(type=User.Types.DEVELOPER)
 
 class ManagerManager(BaseUserManager):
     def get_queryset(self, *args, **kwargs):
         results = super().get_queryset(*args, **kwargs)
-        return results.filter(type=USER_MODEL.Types.MANAGER)
+        return results.filter(type=User.Types.MANAGER)
         
 class AdminManager(BaseUserManager):
     def get_queryset(self, *args, **kwargs):
         results = super().get_queryset(*args, **kwargs)
-        return results.filter(type=USER_MODEL.Types.ADMIN)
+        return results.filter(type=User.Types.ADMIN)
         
