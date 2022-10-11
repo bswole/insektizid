@@ -2,7 +2,14 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.utils.translation import gettext_lazy as _
 
-from .managers import CustomUserManager, SubmitterManager, DeveloperManager, ManagerManager, AdminManager
+# from .managers import CustomUserManager, SubmitterManager, DeveloperManager, ManagerManager, AdminManager
+
+class CustomUserManager(BaseUserManager):
+    def save(self, *args, **kwargs):
+        # If a new user, set the user's type base off base_type
+        if not self.pk:
+            self.type = self.base_type
+        return super().save(*args,**kwargs)
 
 class CustomUser(AbstractUser):
     class Types(models.TextChoices):
@@ -24,6 +31,29 @@ class CustomUser(AbstractUser):
         choices=Types.choices,
         default=Types.SUBMITTER
     )
+
+#############################################################################
+# MODEL MANAGERS
+#############################################################################
+class SubmitterManager(BaseUserManager):
+    def get_queryset(self, *args, **kwargs):
+        results = super().get_queryset(*args, **kwargs)
+        return results.filter(type=CustomUser.Types.SUBMITTER)
+
+class DeveloperManager(BaseUserManager):
+    def get_queryset(self, *args, **kwargs):
+        results = super().get_queryset(*args, **kwargs)
+        return results.filter(type=CustomUser.Types.DEVELOPER)
+
+class ManagerManager(BaseUserManager):
+    def get_queryset(self, *args, **kwargs):
+        results = super().get_queryset(*args, **kwargs)
+        return results.filter(type=CustomUser.Types.MANAGER)
+
+class AdminManager(BaseUserManager):
+    def get_queryset(self, *args, **kwargs):
+        results = super().get_queryset(*args, **kwargs)
+        return results.filter(type=CustomUser.Types.ADMIN)
 
 #############################################################################
 # PROXY MODELS 
