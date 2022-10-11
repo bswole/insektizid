@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
     entry: './front-end/index.js',
     output: {
-        filename: 'index-bundle.js',
+        filename: 'js-bundle.js',
         path: path.resolve(__dirname, './static/'),
     },
 
