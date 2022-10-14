@@ -14,8 +14,6 @@ import environ
 
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-
 ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # insektizid/
 APPS_DIR = ROOT_DIR / "insektizid"
@@ -40,16 +38,22 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # apps
+]
+
+THIRD_PARTY_APPS = []
+
+LOCAL_APPS = [ 
     'users',
 ]
+
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 AUTH_USER_MODEL = 'users.User'
 
