@@ -4,7 +4,7 @@ module.exports = {
     entry: './front-end/index.js',
     output: {
         filename: 'js-bundle.js',
-        path: path.resolve(__dirname, './static/'),
+        path: path.resolve(__dirname, './insektizid/static/'),
     },
 
     module: {
