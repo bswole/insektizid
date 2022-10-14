@@ -21,3 +21,11 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='base.html'), name='base'),
     path('admin/', admin.site.urls),
 ]
+
+# urlpatterns = [
+#     # this route catches the "naked" URL with no path specified. you can link to it in most places
+#     path(r'my-react-page/', views.MyReactView.as_view(), name='react_app'),  
+
+#     # this route catches any url below the main one, so the path can be passed to the front end
+#     path(r'my-react-page/<path:path>', views.MyReactView.as_view(), name='react_app_with_path'),
+# ]

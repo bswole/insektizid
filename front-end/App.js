@@ -4,6 +4,7 @@ import Home from 'comp/Home'; //comp is an alias for 'front-end/components/' def
 function App() {
     return (
         <Home />
+
     );
 }
 
