@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'accounts',
 ]
 
-AUTH_USER_MODEL = 'accounts.CustomUser'
+AUTH_USER_MODEL = 'accounts.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -60,7 +60,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [ BASE_DIR/'templates' ],
-        'APP_DIRS': True,
+        'APP_DIRS': False, # all templates are in the main template/ folder
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',

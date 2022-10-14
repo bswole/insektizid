@@ -25,23 +25,23 @@ class Project(TimeStampedModel):
 
 class Ticket(TimeStampedModel):
     STATUSES = (
-        ('B','Backlog'),
-        ('T','Todo'),
-        ('I','In Progress'),
-        ('R','Review'),
-        ('D','Done'),
+        ('BACKLOG','Backlog'),
+        ('TODO','Todo'),
+        ('INPROGRESS','In Progress'),
+        ('REVIEW','Review'),
+        ('DONE','Done'),
     )
     LABELS = (
-        ('e','enhancement'),
-        ('b','bug'),
-        ('d','documentation'),
-        ('u','duplicate'),
-        ('g','good first issue'),
-        ('h','help wanted'),
-        ('i','invalid'),
-        ('q','question'),
-        ('w','wontfix'),
-        ('n','unassigned'),
+        ('ENHANCEMENT','enhancement'),
+        ('BUG','bug'),
+        ('DOCUMENTATION','documentation'),
+        ('DUPLICATE','duplicate'),
+        # ('GOODFIRSTISSUE','good first issue'),
+        ('HELPWANTED','help wanted'),
+        ('INVALID','invalid'),
+        ('QUESTION','question'),
+        ('WONTFIX','wontfix'),
+        ('UNASSIGNED','unassigned'),
     )
     PRIORITIES = (
         ('H','High'),
@@ -52,8 +52,8 @@ class Ticket(TimeStampedModel):
     assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING) # TODO on delete set to project manager
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     description = models.TextField()
-    status = models.CharField(max_length=1, choices=STATUSES)
-    priority = models.CharField(max_length=1, choices=PRIORITIES)
+    status = models.CharField(max_length=50, choices=STATUSES)
+    priority = models.CharField(max_length=50, choices=PRIORITIES)
     # labels = models.CharField(max_length=1, choices=LABELS) # TODO enable adding labels from limited list above
     deadline = models.DateField()
 
