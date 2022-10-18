@@ -29,8 +29,8 @@ urlpatterns = [
     path( "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"),
 
     # this route catches the "naked" URL with no path specified. you can link to it in most places
-    path('my-react-page/', tracker_home_view , name='react_app'),  
+    path('app/', tracker_home_view , name='react_app'),  
     # this route catches any url below the main one, passing it to the front end
-    path('my-react-page/<path:path>', tracker_home_view , name='react_app'),  
+    path('app/<path:path>', tracker_home_view , name='react_app'),  
 
 ]
