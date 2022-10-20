@@ -6,13 +6,9 @@
         <title>Insektizid: {% block title %}A React-Django Hybrid Issue Tracker{% endblock %}</title>
     </head>
     <body>
-        <main>
-            {% block content %}
-            {% endblock %}
-            <div id="root" />
-        </main>
-        {% block scripts %}
-        {% endblock %}
-        <script src="{% static 'js-bundle.js' %}"></script>
+        {% block content %}{% endblock %}
+        <div id="root" />
+        {% block scripts %}{% endblock %}
+        <script src="{% static 'bundle.js' %}"></script>
     </body>
 </html>

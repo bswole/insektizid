@@ -1,3 +1,8 @@
 {% extends "base.html" %}
 
-{% block content %}This is the home page place holder. It should eventually redirect to a dashboard or login page. /my-react-page/ for the single-page application. {% endblock %}
+{% block content %}
+<h1 class="">This is the home page place holder. It should eventually redirect to a dashboard or login page. /app/ for the single-page application.</h1>
+<a href={% url 'react_app' %}><button class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-purple">
+    React App
+</button></a>
+{% endblock %}

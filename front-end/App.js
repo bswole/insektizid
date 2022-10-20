@@ -1,12 +1,14 @@
 import React from 'react';
-import Home from 'comp/Home'; //comp is an alias for 'front-end/components/' defined in webpack.config.js
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Home from '@comp/Home'
+import DashBoard from '@comp/DashBoard'
 
 function App() {
     return (
-        <Router basename="/app/"> 
+        <Router basename="/app/">
             <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<DashBoard />} />
+                <Route path="/home" element={<Home />} />
             </Routes>
         </Router>
     );

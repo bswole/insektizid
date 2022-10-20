@@ -1,46 +1,50 @@
 const path = require('path');
 
 module.exports = {
+    mode: 'production',
     entry: './front-end/index.js',
     output: {
-        filename: 'js-bundle.js',
         path: path.resolve(__dirname, './insektizid/static/'),
+        filename: 'bundle.js',
     },
 
     module: {
         rules: [
             {
                 test: /\.(js|jsx)$/,
+                include: path.resolve(__dirname, 'front-end'),
                 exclude: /node_modules/,
                 loader: "babel-loader",
                 options: { presets: ["@babel/preset-env", "@babel/preset-react"]}
             },
+            // { //****** needed if using SASS
+            //     test: /\.s[ac]ss$/,
+            //     use: [
+            //         {loader: "style-loader",},
+            //         {loader: "css-loader",},
+            //         {
+            //             loader: "postcss-loader",
+            //             options: {
+            //                 postcssOptions: {
+            //                     plugins: function () {
+            //                         return [
+            //                             require('precss'),
+            //                             require('autoprefixer')
+            //                         ];
+            //                     }
+            //                 }
+            //             }
+            //         },
+            //         {loader: "sass-loader",}
+            //     ],
+            // },
             {
-                test: /\.s[ac]ss$/,
-                use: [
-                    {loader: "style-loader",},
-                    {loader: "css-loader",},
-                    {
-                        loader: "postcss-loader",
-                        options: {
-                            postcssOptions: {
-                                plugins: function () {
-                                    return [
-                                        require('precss'),
-                                        require('autoprefixer')
-                                    ];
-                                }
-                            }
-                        }
-                    },
-                    {loader: "sass-loader",}
-                ],
-            },
-            {
-                test: /\.css$/,
+                test: /\.css$/i,
+                include: path.resolve(__dirname, 'front-end'),
                 use: [
                     {loader: 'style-loader',},
-                    {loader: 'css-loader',}
+                    {loader: 'css-loader',},
+                    {loader: 'postcss-loader',}
                 ]
             }
         ]
@@ -48,8 +52,13 @@ module.exports = {
 
     resolve: {
         alias: {
-            'comp': path.resolve(__dirname, 'front-end/components/'),
-            'img': path.resolve(__dirname, 'front-end/images/')
+            '@comp': path.resolve(__dirname, 'front-end/components/'),
+            // '@img': path.resolve(__dirname, 'front-end/images/')
         }
-    }
+    },
+
+    devServer: {
+        static: 'dist',
+        watchContentBase: true,
+    },
 };
