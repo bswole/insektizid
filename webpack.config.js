@@ -53,7 +53,9 @@ module.exports = {
     resolve: {
         alias: {
             '@comp': path.resolve(__dirname, 'front-end/components/'),
-            // '@img': path.resolve(__dirname, 'front-end/images/')
+            '@page': path.resolve(__dirname, 'front-end/pages/'),
+            '@icon': path.resolve(__dirname, 'front-end/icons/'),
+            '@img': path.resolve(__dirname, 'front-end/assets/img/')
         }
     },
 

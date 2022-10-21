@@ -28,6 +28,8 @@ urlpatterns = [
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
     path( "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"),
     path("login/", TemplateView.as_view(template_name="auth/login.html"), name="login" ),
+    path("forgot-password/", TemplateView.as_view(template_name="auth/forgot_password.html"), name="forgot_password" ),
+    path("create-account/", TemplateView.as_view(template_name="auth/create_account.html"), name="create_account" ),
 
 
     ### REACT APP ROUTES
