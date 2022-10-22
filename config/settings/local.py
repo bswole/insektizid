@@ -39,26 +39,32 @@ ALLOWED_HOSTS = []
 # Application definition
 
 DJANGO_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.admin',
 ]
 
-THIRD_PARTY_APPS = []
+THIRD_PARTY_APPS = [
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+]
 
 LOCAL_APPS = [ 
-    'users',
+    'insektizid.users',
 ]
 
+# https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 AUTH_USER_MODEL = 'users.User'
 
-# LOGIN_REDIRECT_URL = "users:redirect"
-# LOGIN_URL = "account_login"
+LOGIN_REDIRECT_URL = "react_app"
+LOGIN_URL = "login"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -148,3 +154,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_ROOT = str(APPS_DIR / "media")
 
 MEDIA_URL = "/media/"
+
+# ADMIN
+ADMIN_URL = "admin/"
