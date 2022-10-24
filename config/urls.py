@@ -16,9 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
+from django.contrib.auth.decorators import login_required
 
 
-react_app_view = TemplateView.as_view(template_name="base.html")
+react_app_view = login_required(TemplateView.as_view(template_name="base.html"))
 
 urlpatterns = [
     # path('admin/', admin.site.urls),

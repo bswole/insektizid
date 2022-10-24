@@ -45,19 +45,26 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 ]
 
-THIRD_PARTY_APPS = []
+THIRD_PARTY_APPS = [
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
+]
 
 LOCAL_APPS = [ 
     'users',
 ]
 
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS 
 
 AUTH_USER_MODEL = 'users.User'
 
-# LOGIN_URL = "account_login"
+LOGIN_URL = "account_login"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -75,7 +82,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [str(APPS_DIR / "templates")],
-        'APP_DIRS': False, # all templates are in the main template/ folder
+        'APP_DIRS': True, # all templates are in the main template/ folder
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -148,9 +155,18 @@ MEDIA_ROOT = str(APPS_DIR / "media")
 
 MEDIA_URL = "/media/"
 
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 
 # django-allauth
 # ------------------------------------------------------------------------------
+ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
+
 ACCOUNT_ALLOW_REGISTRATION = env.bool("DJANGO_ACCOUNT_ALLOW_REGISTRATION", True)
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_AUTHENTICATION_METHOD = "username"
@@ -168,3 +184,20 @@ ACCOUNT_EMAIL_VERIFICATION = "none"
 # SOCIALACCOUNT_FORMS = {"signup": "insektizid.users.forms.UserSocialSignupForm"}
 
 LOGIN_REDIRECT_URL = "react_app"
+LOGOUT_REDIRECT_URL = "account_login"
+
+SITE_ID = 1
+
+# Provider specific settings
+SOCIALACCOUNT_PROVIDERS = {
+    # 'google': {
+    #     # For each OAuth based provider, either add a ``SocialApp``
+    #     # (``socialaccount`` app) containing the required client
+    #     # credentials, or list them here:
+    #     'APP': {
+    #         'client_id': '123',
+    #         'secret': '456',
+    #         'key': ''
+    #     }
+    # }
+}

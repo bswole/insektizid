@@ -12,7 +12,7 @@ class User(AbstractUser):
         SUBMITTER = "SUBMITTER", "Submitter"
 
     # default user role
-    base_type = Types.SUBMITTER
+    # base_type = Types.SUBMITTER
 
     # user role
     type = models.CharField(
@@ -26,8 +26,8 @@ class User(AbstractUser):
 
     def save(self, *args, **kwargs):
         # If a new user, set the user's type based off base_type if not already defined
-        if not self.type or self.type == None:
-            self.type = self.base_type
+        # if not self.type or self.type == None:
+            # self.type = self.base_type
         return super().save(*args,**kwargs)
 
     # modify super() create_superuser method to assign admin type to superusers
@@ -66,7 +66,7 @@ class AdminManager(BaseUserManager):
         return results.filter(type=User.Types.ADMIN)
 
 #############################################################################
-# PROXY MODELS 
+# PROXY MODELS TODO not currently in use, utilize for better user type handling
 #############################################################################
 class Submitter(User):
     # User base_type is Submitter, but repeated here in case of change
